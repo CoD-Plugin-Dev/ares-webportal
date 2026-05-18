@@ -48,44 +48,55 @@ export default Component.extend({
     this.set('showNpcForm', false);
     this.set('add', true);
   },
-  actions: {
-    addNpc() {
-      this.gameApi
-        .requestOne('addNpc', {
-          combat_id: this.combat.id,
-          npc: { ...this.formData },
-        })
-        .then((res) => {
-          if (res.error) return;
-          this.clearForm();
-        });
-    },
-    editNpc(edit) {
-      this.set('add', !!edit);
-    },
-    updateNpc() {
-      this.gameApi
-        .requestOne('updateNpc', {
-          combat_id: this.combat.id,
-          npc: { ...this.formData },
-        })
-        .then((res) => {
-          if (res.error) return;
-          this.clearForm();
-        });
-    },
-    updateNpcData(event) {
-      this.set(`formData.${event.srcElement.name}`, event.srcElement.value);
-    },
-    updateSheetData(field, event) {
-      this.set(`formData.sheet.${field}`, event.srcElement.value);
-    },
-    updateTemplate(template) {
-      const npc = {
-        ...this.baseTemplates?.find((t) => t.name === template.name),
-      };
-      this.set('selectedTemplate', template);
-      this.set('formData', npc);
-    },
+
+  @action
+  addNpc() {
+    this.gameApi
+      .requestOne('addNpc', {
+        combat_id: this.combat.id,
+        npc: { ...this.formData },
+      })
+      .then((res) => {
+        if (res.error) return;
+        this.clearForm();
+      });
   },
+
+  @action
+  editNpc(edit) {
+    this.set('add', !!edit);
+  },
+
+  @action
+  updateNpc() {
+    this.gameApi
+      .requestOne('updateNpc', {
+        combat_id: this.combat.id,
+        npc: { ...this.formData },
+      })
+      .then((res) => {
+        if (res.error) return;
+        this.clearForm();
+      });
+  },
+
+  @action
+  updateNpcData(event) {
+    this.set(`formData.${event.srcElement.name}`, event.srcElement.value);
+  },
+
+  @action
+  updateSheetData(field, event) {
+    this.set(`formData.sheet.${field}`, event.srcElement.value);
+  },
+
+  @action
+  updateTemplate(template) {
+    const npc = {
+      ...this.baseTemplates?.find((t) => t.name === template.name),
+    };
+    this.set('selectedTemplate', template);
+    this.set('formData', npc);
+  },
+
 });

@@ -55,20 +55,22 @@ export default Component.extend({
   },
 
   validateChar() {},
-  actions: {
-    setBlessing(index, blessing) {
-      const selected = {
-        ...this.cg_lists.blessings.find((a) => a.name === blessing),
-      };
 
-      selected.rating = parseInt(
-        selected.reqs.split(' ')[0]?.split(':')[2] || '5',
-      );
-      delete selected.reqs;
-      delete selected.rote_skills;
-      this.set(`blessings.${index}.selected`, selected);
-      this.set(`cg_sheet.blessings.${index}`, selected);
-    },
-    arcanaChanged() {},
+  @action
+  setBlessing(index, blessing) {
+    const selected = {
+      ...this.cg_lists.blessings.find((a) => a.name === blessing),
+    };
+
+    selected.rating = parseInt(
+      selected.reqs.split(' ')[0]?.split(':')[2] || '5',
+    );
+    delete selected.reqs;
+    delete selected.rote_skills;
+    this.set(`blessings.${index}.selected`, selected);
+    this.set(`cg_sheet.blessings.${index}`, selected);
   },
+  @action
+  arcanaChanged() {},
+
 });

@@ -49,7 +49,7 @@ export default Component.extend({
       this.set('cg_sheet.attributes', A(sheet_attrs));
     }
   },
-  actions: {
-    attrChanged() {},
-  },
+
+  @action
+  attrChanged() {},
 });

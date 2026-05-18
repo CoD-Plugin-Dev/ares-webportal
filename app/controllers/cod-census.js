@@ -43,19 +43,22 @@ export default Controller.extend({
       });
     }
   }),
-  actions: {
-    filterOnTemplate(template) {
-      this.set('filter', template);
-      if (template === null && ![null, 'template'].includes(this.order_by)) {
-        this.set('order_by', null);
-      }
-    },
-    orderBy(field) {
-      if (field !== null && field.toLowerCase() === this.order_by) {
-        this.set('order_by', null);
-      } else {
-        this.set('order_by', field);
-      }
-    },
+  
+  @action
+  filterOnTemplate(template) {
+    this.set('filter', template);
+    if (template === null && ![null, 'template'].includes(this.order_by)) {
+      this.set('order_by', null);
+    }
   },
+
+  @action
+  orderBy(field) {
+    if (field !== null && field.toLowerCase() === this.order_by) {
+      this.set('order_by', null);
+    } else {
+      this.set('order_by', field);
+    }
+  },
+
 });

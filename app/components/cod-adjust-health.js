@@ -44,35 +44,37 @@ export default Component.extend({
     this.set('healthChar', this.data.char.name);
   },
 
-  actions: {
-    selectChar(name) {
-      this.set('selectedChar', this.getSelectedChar(name));
-      this.set('healthChar', name);
-    },
-    adjustHealth() {
-      this.set('selectAdjustHealth', false);
-      this.gameApi
-        .requestOne(
-          'adjustHealth',
-          {
-            id: this.get('scene.id'),
-            char: this.healthChar,
-            value: this.healthStr,
-            bashing: this.bashing,
-            lethal: this.lethal,
-            agg: this.agg,
-          },
-          null,
-        )
-        .then((res) => {
-          if (res.c_error) {
-            alertify.error(res.c_error);
-            return;
-          }
-
-          ['healthChar', 'healthStr'].forEach((s) => this.set(s, null));
-          ['bashing', 'lethal', 'agg'].forEach((s) => this.set(s, false));
-        });
-    },
+  @action
+  selectChar(name) {
+    this.set('selectedChar', this.getSelectedChar(name));
+    this.set('healthChar', name);
   },
+
+  @action
+  adjustHealth() {
+    this.set('selectAdjustHealth', false);
+    this.gameApi
+      .requestOne(
+        'adjustHealth',
+        {
+          id: this.get('scene.id'),
+          char: this.healthChar,
+          value: this.healthStr,
+          bashing: this.bashing,
+          lethal: this.lethal,
+          agg: this.agg,
+        },
+        null,
+      )
+      .then((res) => {
+        if (res.c_error) {
+          alertify.error(res.c_error);
+          return;
+        }
+
+        ['healthChar', 'healthStr'].forEach((s) => this.set(s, null));
+        ['bashing', 'lethal', 'agg'].forEach((s) => this.set(s, false));
+      });
+  },
+  
 });

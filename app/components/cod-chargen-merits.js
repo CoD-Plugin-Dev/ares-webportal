@@ -49,35 +49,43 @@ export default Component.extend({
   },
   validateChar() {},
 
-  actions: {
-    addMerit() {
-      this.addMerit();
-    },
-    deleteMerit(index) {
-      this.get('cg_sheet.merits').removeAt(index);
-    },
-    meritChanged(index, m) {
-      const selectedName = m.name;
-      const merit = this.cg_lists.merits.find((m) => m.name === selectedName);
-      const cost = Array.isArray(merit.cost) ? merit.cost : [merit.cost];
-      const selected = this.getMeritObject();
-
-      delete selected.options;
-      selected.name = merit.name;
-      selected.cost = cost;
-      selected.dots = cost.join(', ');
-      selected.has_spec = merit.has_spec;
-      selected.rating = cost[0];
-      selected.details = {};
-      Object.assign(selected.details, merit);
-      if (selected.details?.reqs) {
-        selected.details.reqs = prettyPrintPrereqs(selected.details.reqs);
-      }
-      this.get('cg_sheet.merits').replace(index, 1, [selected]);
-    },
-    meritCostUpdated() {},
-    addSpecifics(index, event) {
-      this.set(`cg_sheet.merits.${index}.spec`, event.srcElement.value);
-    },
+  @action
+  addMerit() {
+    this.addMerit();
   },
+
+  @action
+  deleteMerit(index) {
+    this.get('cg_sheet.merits').removeAt(index);
+  },
+
+  @action
+  meritChanged(index, m) {
+    const selectedName = m.name;
+    const merit = this.cg_lists.merits.find((m) => m.name === selectedName);
+    const cost = Array.isArray(merit.cost) ? merit.cost : [merit.cost];
+    const selected = this.getMeritObject();
+
+    delete selected.options;
+    selected.name = merit.name;
+    selected.cost = cost;
+    selected.dots = cost.join(', ');
+    selected.has_spec = merit.has_spec;
+    selected.rating = cost[0];
+    selected.details = {};
+    Object.assign(selected.details, merit);
+    if (selected.details?.reqs) {
+      selected.details.reqs = prettyPrintPrereqs(selected.details.reqs);
+    }
+    this.get('cg_sheet.merits').replace(index, 1, [selected]);
+  },
+
+  @action
+  meritCostUpdated() {},
+
+  @action
+  addSpecifics(index, event) {
+    this.set(`cg_sheet.merits.${index}.spec`, event.srcElement.value);
+  },
+
 });

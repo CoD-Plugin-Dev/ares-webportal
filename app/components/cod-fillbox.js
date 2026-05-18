@@ -28,20 +28,22 @@ export default Component.extend({
       this.steps.indexOf(this.rating >= 0 ? this.rating : this.minRating),
     );
   },
-  actions: {
-    increment() {
-      if (this.cursor < this.steps.length - 1) {
-        this.set('cursor', this.cursor + 1);
-        this.set('rating', this.steps[this.cursor]);
-      }
-      this.updated();
-    },
-    decrement() {
-      if (this.cursor > 0) {
-        this.set('cursor', this.cursor - 1);
-        this.set('rating', this.steps[this.cursor]);
-      }
-      this.updated();
-    },
+  
+  @action
+  increment() {
+    if (this.cursor < this.steps.length - 1) {
+      this.set('cursor', this.cursor + 1);
+      this.set('rating', this.steps[this.cursor]);
+    }
+    this.updated();
   },
+  @action
+  decrement() {
+    if (this.cursor > 0) {
+      this.set('cursor', this.cursor - 1);
+      this.set('rating', this.steps[this.cursor]);
+    }
+    this.updated();
+  },
+
 });

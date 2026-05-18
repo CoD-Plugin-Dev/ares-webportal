@@ -96,23 +96,30 @@ export default Component.extend({
   },
 
   validateChar() {},
-  actions: {
-    setRoteSkill(index, skill) {
-      if (!this.cg_sheet.rotes[index]) return;
-      this.set(`cg_sheet.rotes.${index}.spec`, skill);
-    },
-    setRote(index, rote) {
-      const selected = this.cg_lists.rotes.find((a) => a.name === rote);
-      selected.reqs = prettyPrintPrereqs(selected.reqs);
-      this.set(`rotes.${index}.selected`, selected);
-      this.set(`cg_sheet.rotes.${index}`, selected);
-    },
-    setPraxis(index, praxis) {
-      const selected = this.cg_lists.praxes.find((a) => a.name === praxis);
-      selected.reqs = prettyPrintPrereqs(selected.reqs);
-      this.set(`praxes.${index}.selected`, selected);
-      this.set(`cg_sheet.praxes.${index}`, selected);
-    },
-    arcanaChanged() {},
+  
+  @action
+  setRoteSkill(index, skill) {
+    if (!this.cg_sheet.rotes[index]) return;
+    this.set(`cg_sheet.rotes.${index}.spec`, skill);
   },
+
+  @action
+  setRote(index, rote) {
+    const selected = this.cg_lists.rotes.find((a) => a.name === rote);
+    selected.reqs = prettyPrintPrereqs(selected.reqs);
+    this.set(`rotes.${index}.selected`, selected);
+    this.set(`cg_sheet.rotes.${index}`, selected);
+  },
+
+  @action
+  setPraxis(index, praxis) {
+    const selected = this.cg_lists.praxes.find((a) => a.name === praxis);
+    selected.reqs = prettyPrintPrereqs(selected.reqs);
+    this.set(`praxes.${index}.selected`, selected);
+    this.set(`cg_sheet.praxes.${index}`, selected);
+  },
+
+  @action
+  arcanaChanged() {},
+  
 });

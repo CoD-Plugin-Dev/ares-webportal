@@ -86,21 +86,23 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
     });
   },
 
-  actions: {
-    scrollScene() {
-      this.scrollSceneWindow();
-    },
-
-    refresh() {
-      this.resetOnExit();
-      this.send('reloadModel');
-    },
-
-    setScroll(option) {
-      this.set('scrollPaused', !option);
-      if (option) {
-        this.scrollSceneWindow();
-      }
-    },
+  @action
+  scrollScene() {
+    this.scrollSceneWindow();
   },
+
+  @action
+  refresh() {
+    this.resetOnExit();
+    this.send('reloadModel');
+  },
+
+  @action
+  setScroll(option) {
+    this.set('scrollPaused', !option);
+    if (option) {
+      this.scrollSceneWindow();
+    }
+  },
+
 });

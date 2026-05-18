@@ -54,35 +54,38 @@ export default Component.extend({
     this.set('selectedChar', this.getSelectedChar(this.resChar));
   },
 
-  actions: {
-    selectChar(name) {
-      this.set('selectedChar', this.getSelectedChar(name));
-      this.set('resChar', name);
-    },
-    selectResourceType(type) {
-      this.set('type', type);
-    },
-    adjustResource() {
-      this.set('selectAdjustResource', false);
-      this.gameApi
-        .requestOne(
-          'adjustResource',
-          {
-            id: this.get('scene.id'),
-            char: this.resChar,
-            value: this.amount,
-            type: this.type,
-          },
-          null,
-        )
-        .then((res) => {
-          if (res.c_error) {
-            alertify.error(res.c_error);
-            return;
-          }
-          this.set('type', 'Willpower');
-          this.set('amount');
-        });
-    },
+  @action
+  selectChar(name) {
+    this.set('selectedChar', this.getSelectedChar(name));
+    this.set('resChar', name);
+  },
+  
+  @action
+  selectResourceType(type) {
+    this.set('type', type);
+  },
+
+  @action
+  adjustResource() {
+    this.set('selectAdjustResource', false);
+    this.gameApi
+      .requestOne(
+        'adjustResource',
+        {
+          id: this.get('scene.id'),
+          char: this.resChar,
+          value: this.amount,
+          type: this.type,
+        },
+        null,
+      )
+      .then((res) => {
+        if (res.c_error) {
+          alertify.error(res.c_error);
+          return;
+        }
+        this.set('type', 'Willpower');
+        this.set('amount');
+      });
   },
 });

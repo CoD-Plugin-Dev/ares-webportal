@@ -25,20 +25,6 @@ export default Component.extend(AuthenticatedController, {
     session: service(),
     router: service(),
 
-    @action
-    setShowInvitation(value) {
-      this.set('showInvitation', value);
-    },
-
-    @action
-    setManagePoseOrder(value) {
-      this.set('managePoseOrder', value);
-    },
-
-    @action
-    setCharacterCard(value) {
-      this.set('characterCard', value);
-    },
 
     updatePoseControls: function() {
       this.set('poseType', { title: 'Pose', id: 'pose' });
@@ -116,258 +102,302 @@ export default Component.extend(AuthenticatedController, {
        return this.get('scene.extras_installed').any(e => e == name); 
     },
     
-    actions: { 
-      locationSelected(loc) {
-          this.set('newLocation', loc);  
-      },
-      changeInvitee(char) {
-        this.set('selectedInvitee', char);
-      },
-      changeLocation() {
-          let api = this.gameApi;
-          
-          let newLoc = this.newLocation;
-          if (!newLoc) {
-              this.flashMessages.danger("You haven't selected a location.");
-              return;
-          }
-          this.set('selectLocation', false);
-          this.set('newLocation', null);
+    @action
+    locationSelected(loc) {
+        this.set('newLocation', loc);  
+    },
 
-          api.requestOne('changeSceneLocation', { scene_id: this.get('scene.id'),
-              location: newLoc })
-          .then( (response) => {
-              if (response.error) {
-                  return;
-              }
-          });
-      },
-      
-      editScenePose(scenePose) { 
-          set(scenePose, 'editActive', true);
-      },
-      cancelScenePoseEdit(scenePose) {
-          set(scenePose, 'editActive', false);
-      },
-      deleteScenePose() {
-          let api = this.gameApi;
-          let poseId = this.get('confirmDeleteScenePose.id');
-          this.set('confirmDeleteScenePose', false);
+    @action
+    changeInvitee(char) {
+      this.set('selectedInvitee', char);
+    },
 
-          let scenePose = this.get('scene.poses').find(p => p.id === poseId);
-          this.get('scene.poses').removeObject(scenePose);
-
-          api.requestOne('deleteScenePose', { scene_id: this.get('scene.id'),
-              pose_id: poseId })
-          .then( (response) => {
-              if (response.error) {
-                  return;
-              }
-          });
-      },
-      collapseScene() {
+    @action
+    changeLocation() {
         let api = this.gameApi;
+        
+        let newLoc = this.newLocation;
+        if (!newLoc) {
+            this.flashMessages.danger("You haven't selected a location.");
+            return;
+        }
+        this.set('selectLocation', false);
+        this.set('newLocation', null);
 
-        api.requestOne('collapseScenePoses', { id: this.get('scene.id') })
+        api.requestOne('changeSceneLocation', { scene_id: this.get('scene.id'),
+            location: newLoc })
         .then( (response) => {
             if (response.error) {
                 return;
             }
-            this.flashMessages.success('The scene poses have been collapsed for editing.');
-            this.refresh(); 
         });
-      },
-      deleteScene() {
-        let api = this.gameApi;
-        this.set('confirmDeleteScene', false);
+    },
+      
+    @action
+    editScenePose(scenePose) { 
+        set(scenePose, 'editActive', true);
+    },
 
-        api.requestOne('deleteScene', { id: this.get('scene.id') })
+    @action
+    cancelScenePoseEdit(scenePose) {
+        set(scenePose, 'editActive', false);
+    },
+
+    @action
+    deleteScenePose() {
+        let api = this.gameApi;
+        let poseId = this.get('confirmDeleteScenePose.id');
+        this.set('confirmDeleteScenePose', false);
+
+        let scenePose = this.get('scene.poses').find(p => p.id === poseId);
+        this.get('scene.poses').removeObject(scenePose);
+
+        api.requestOne('deleteScenePose', { scene_id: this.get('scene.id'),
+            pose_id: poseId })
         .then( (response) => {
             if (response.error) {
                 return;
             }
-            this.flashMessages.success('The scene has been marked for deletion.');
-            this.router.transitionTo('scenes-live');
         });
-      },
-      saveScenePose(scenePose, notify) {
-          let pose = scenePose.raw_pose;
-          if (pose.length === 0) {
-              this.flashMessages.danger("You haven't entered anything.");
+    },
+
+    @action
+    collapseScene() {
+      let api = this.gameApi;
+
+      api.requestOne('collapseScenePoses', { id: this.get('scene.id') })
+      .then( (response) => {
+          if (response.error) {
               return;
           }
-          set(scenePose, 'editActive', false);
-          set(scenePose, 'pose', pose);
+          this.flashMessages.success('The scene poses have been collapsed for editing.');
+          this.refresh(); 
+      });
+    },
 
-          let api = this.gameApi;
-          api.requestOne('editScenePose', { scene_id: this.get('scene.id'),
-              pose_id: scenePose.id, pose: pose, notify: notify })
-          .then( (response) => {
-              if (response.error) {
-                  return;
-              }
-              set(scenePose, 'pose', response.pose);
-          });
-      },
-      
-      loadLastPose() {
-        this.set('scene.draftPose', this.get('scene.lastDraftPose'));
-      },
-      
-      addPose(poseType) {
-          let pose = this.get('scene.draftPose') || "";
-          if (pose.length === 0) {
-              this.flashMessages.danger("You haven't entered anything.");
+    @action
+    deleteScene() {
+      let api = this.gameApi;
+      this.set('confirmDeleteScene', false);
+
+      api.requestOne('deleteScene', { id: this.get('scene.id') })
+      .then( (response) => {
+          if (response.error) {
               return;
           }
-          let api = this.gameApi;
-          this.set('scene.lastDraftPose', pose);
-          this.set('scene.draftPose', '');
+          this.flashMessages.success('The scene has been marked for deletion.');
+          this.router.transitionTo('scenes-live');
+      });
+    },
 
-          api.requestOne('addScenePose', { id: this.get('scene.id'),
-              pose: pose, 
-              pose_type: poseType,
-              pose_char: this.get('scene.poseChar.id') }, null, true)
-          .then( (response) => {
-              if (response.error) {
-                  return;
-              }
-              if (response.command_response) {
-                this.set('commandResponse', response.command_response);
-              } else {
-                this.set('commandResponse', '');
-              }
-              
-              this.scrollDown();
-          });
-      },
+    @action
+    saveScenePose(scenePose, notify) {
+        let pose = scenePose.raw_pose;
+        if (pose.length === 0) {
+            this.flashMessages.danger("You haven't entered anything.");
+            return;
+        }
+        set(scenePose, 'editActive', false);
+        set(scenePose, 'pose', pose);
+
+        let api = this.gameApi;
+        api.requestOne('editScenePose', { scene_id: this.get('scene.id'),
+            pose_id: scenePose.id, pose: pose, notify: notify })
+        .then( (response) => {
+            if (response.error) {
+                return;
+            }
+            set(scenePose, 'pose', response.pose);
+        });
+    },
       
-      changeSceneStatus(status) {
-          let api = this.gameApi;
-          if (status === 'share') {
-            this.gameSocket.removeCallback('new_scene_activity');
-          }
-          this.set('scene.reload_required', true);
-          
-          api.requestOne('changeSceneStatus', { id: this.get('scene.id'),
-              status: status }, null)
-          .then( (response) => {
-              if (response.error) {
-                  return;
-              }
-              if (status === 'share') {
-                  this.flashMessages.success('The scene has been shared.');
-              }
-              else if (status === 'stop') {
-                  this.flashMessages.success('The scene has been stopped.');
-                  this.refresh(); 
-              }
-              else if (status === 'restart') {
-                  this.flashMessages.success('The scene has been restarted.');
-                  this.refresh(); 
-              }
-          });
-      },
+    @action
+    loadLastPose() {
+      this.set('scene.draftPose', this.get('scene.lastDraftPose'));
+    },
       
-      watchScene(option) {
-          let api = this.gameApi;
-          let command = option ? 'watchScene' : 'unwatchScene';
-          api.requestOne(command, { id: this.get('scene.id') }, null)
-          .then( (response) => {
-              if (response.error) {
-                  return;
-              }
-              let message = option ? 'now watching' : 'no longer watching';
-              this.flashMessages.success(`You are ${message} the scene.`);
-              this.scene.set('is_watching', option);
-              
-              if (option) {
+    @action
+    addPose(poseType) {
+        let pose = this.get('scene.draftPose') || "";
+        if (pose.length === 0) {
+            this.flashMessages.danger("You haven't entered anything.");
+            return;
+        }
+        let api = this.gameApi;
+        this.set('scene.lastDraftPose', pose);
+        this.set('scene.draftPose', '');
+
+        api.requestOne('addScenePose', { id: this.get('scene.id'),
+            pose: pose, 
+            pose_type: poseType,
+            pose_char: this.get('scene.poseChar.id') }, null, true)
+        .then( (response) => {
+            if (response.error) {
+                return;
+            }
+            if (response.command_response) {
+              this.set('commandResponse', response.command_response);
+            } else {
+              this.set('commandResponse', '');
+            }
+            
+            this.scrollDown();
+        });
+    },
+      
+    @action
+    changeSceneStatus(status) {
+        let api = this.gameApi;
+        if (status === 'share') {
+          this.gameSocket.removeCallback('new_scene_activity');
+        }
+        this.set('scene.reload_required', true);
+        
+        api.requestOne('changeSceneStatus', { id: this.get('scene.id'),
+            status: status }, null)
+        .then( (response) => {
+            if (response.error) {
+                return;
+            }
+            if (status === 'share') {
+                this.flashMessages.success('The scene has been shared.');
+            }
+            else if (status === 'stop') {
+                this.flashMessages.success('The scene has been stopped.');
                 this.refresh(); 
-              }
-          });
-      },
-      
-      inviteChar() {
-          let api = this.gameApi;
-          let invitee = this.selectedInvitee;
-          this.set('selectedInvitee', null);
-          this.set('showInvitation', false);
-          
-          api.requestOne('inviteToScene', { id: this.get('scene.id'), invitee: invitee.name }, null)
-          .then( (response) => {
-              if (response.error) {
-                  return;
-              }
-              this.flashMessages.success(`Invitation sent.`);
-          });
-      },
-      
-      scrollDown() {
-        this.scrollDown();
-      },
-      
-      pauseScroll() {
-        this.setScroll(false);
-      },
-      unpauseScroll() {
-        this.setScroll(true);
-      },
-      
-      poseTypeChanged(newType) {
-        this.set('poseType', newType);
-      },
-      
-      poseCharChanged(newChar) { 
-        this.set('scene.poseChar', newChar);
-      },
-      
-      showCharCard(char) {
+            }
+            else if (status === 'restart') {
+                this.flashMessages.success('The scene has been restarted.');
+                this.refresh(); 
+            }
+        });
+    },
+    
+    @action
+    watchScene(option) {
         let api = this.gameApi;
-        api.requestOne('sceneCard', { char: char }, null)
+        let command = option ? 'watchScene' : 'unwatchScene';
+        api.requestOne(command, { id: this.get('scene.id') }, null)
         .then( (response) => {
             if (response.error) {
                 return;
             }
-            this.set('characterCardInfo', response);
-            this.set('characterCard', true);
+            let message = option ? 'now watching' : 'no longer watching';
+            this.flashMessages.success(`You are ${message} the scene.`);
+            this.scene.set('is_watching', option);
+            
+            if (option) {
+              this.refresh(); 
+            }
         });
-      },
+    },
       
-      switchPoseOrderType(newType) {
+    @action
+    inviteChar() {
         let api = this.gameApi;
-        api.requestOne('switchPoseOrder', { id: this.get('scene.id'), type: newType }, null)
+        let invitee = this.selectedInvitee;
+        this.set('selectedInvitee', null);
+        this.set('showInvitation', false);
+        
+        api.requestOne('inviteToScene', { id: this.get('scene.id'), invitee: invitee.name }, null)
         .then( (response) => {
-          this.set('managePoseOrder', false);
             if (response.error) {
                 return;
             }
-            this.set('scene.pose_order_type', newType);
+            this.flashMessages.success(`Invitation sent.`);
         });
-      },
+    },
       
-      dropPoseOrder(name) {
-        let api = this.gameApi;
-        api.requestOne('dropPoseOrder', { id: this.get('scene.id'), name: name }, null)
-        .then( (response) => {
-            this.set('managePoseOrder', false);
-            if (response.error) {
-                return;
-            }
-        });
-      },
+    @action
+    scrollDown() {
+      this.scrollDown();
+    },
       
-      reportScene() {
-        let api = this.gameApi;
-        this.set('confirmReportScene', false);
+    @action
+    pauseScroll() {
+      this.setScroll(false);
+    },
 
-        api.requestOne('reportScene', { id: this.get('scene.id'), reason: this.reportReason })
-        .then( (response) => {
-            if (response.error) {
-                return;
-            }
-            this.set('reportReason', null);
-            this.flashMessages.success('Thank you.  The scene has been reported.');
-        });
-      },
-    }
+    @action
+    unpauseScroll() {
+      this.setScroll(true);
+    },
+      
+    @action
+    poseTypeChanged(newType) {
+      this.set('poseType', newType);
+    },
+      
+    @action
+    poseCharChanged(newChar) { 
+      this.set('scene.poseChar', newChar);
+    },
+      
+    @action
+    showCharCard(char) {
+      let api = this.gameApi;
+      api.requestOne('sceneCard', { char: char }, null)
+      .then( (response) => {
+          if (response.error) {
+              return;
+          }
+          this.set('characterCardInfo', response);
+          this.set('characterCard', true);
+      });
+    },
+      
+    @action
+    switchPoseOrderType(newType) {
+      let api = this.gameApi;
+      api.requestOne('switchPoseOrder', { id: this.get('scene.id'), type: newType }, null)
+      .then( (response) => {
+        this.set('managePoseOrder', false);
+          if (response.error) {
+              return;
+          }
+          this.set('scene.pose_order_type', newType);
+      });
+    },
+      
+    @action
+    dropPoseOrder(name) {
+      let api = this.gameApi;
+      api.requestOne('dropPoseOrder', { id: this.get('scene.id'), name: name }, null)
+      .then( (response) => {
+          this.set('managePoseOrder', false);
+          if (response.error) {
+              return;
+          }
+      });
+    },
+      
+    @action
+    reportScene() {
+      let api = this.gameApi;
+      this.set('confirmReportScene', false);
+
+      api.requestOne('reportScene', { id: this.get('scene.id'), reason: this.reportReason })
+      .then( (response) => {
+          if (response.error) {
+              return;
+          }
+          this.set('reportReason', null);
+          this.flashMessages.success('Thank you.  The scene has been reported.');
+      });
+    },
+
+    @action
+    setShowInvitation(value) {
+      this.set('showInvitation', value);
+    },
+
+    @action
+    setManagePoseOrder(value) {
+      this.set('managePoseOrder', value);
+    },
+
+    @action
+    setCharacterCard(value) {
+      this.set('characterCard', value);
+    },
 });

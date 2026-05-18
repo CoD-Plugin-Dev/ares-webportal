@@ -263,156 +263,164 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
       this.markSceneRead(scene.id);
     },
     
-    actions: {        
-            
-      joinChannel: function(channelName) {
-          let api = this.gameApi;
-          this.set('showAddChannel', false);
-                    
-          api.requestOne('joinChannel', { channel: channelName, char: this.poseChar.name }, null)
-          .then( (response) => {
-              if (response.error) {
-                  return;
-              }
-              let data = response.channel;
-              let channel = this.getChannel(data.key);
-              this.get('model.chat.channels').removeObject(channel);
-              this.get('model.chat.channels').pushObject(data);
-              this.changeChannel(data);
-          });
-      },
-    
       
-        refresh() {
-            this.resetOnExit();
-            this.send('reloadModel');
-        },
-        
-        setScroll(option) {
-          this.set('scrollPaused', !option);
-          if (option) {
-            this.scrollWindow();
+    @action     
+    joinChannel: function(channelName) {
+        let api = this.gameApi;
+        this.set('showAddChannel', false);
+                  
+        api.requestOne('joinChannel', { channel: channelName, char: this.poseChar.name }, null)
+        .then( (response) => {
+            if (response.error) {
+                return;
+            }
+            let data = response.channel;
+            let channel = this.getChannel(data.key);
+            this.get('model.chat.channels').removeObject(channel);
+            this.get('model.chat.channels').pushObject(data);
+            this.changeChannel(data);
+        });
+    },
+  
+    @action
+    refresh() {
+        this.resetOnExit();
+        this.send('reloadModel');
+    },
+    
+    @action
+    setScroll(option) {
+      this.set('scrollPaused', !option);
+      if (option) {
+        this.scrollWindow();
+      }
+    },
+    
+    @action
+    scrollDown() {
+      this.scrollWindow();
+    },
+    
+    @action
+    switchScene(id) {
+      let api = this.gameApi;
+      var scene;
+      this.get('model.scenes').forEach(s => {
+          if (s.id === id) {
+            scene = s;
           }
-        },
-        
-        scrollDown() {
-          this.scrollWindow();
-        },
-        
-        switchScene(id) {
-          let api = this.gameApi;
-          var scene;
-          this.get('model.scenes').forEach(s => {
-              if (s.id === id) {
-                scene = s;
-              }
-          });
-          
-          if (scene.lazy_loaded === true) {
-            api.requestOne('liveScene', { id: scene.id }, null)
-            .then( (response) => {
-                if (response.error) {
-                    return;
-                }
-                scene.set('poses', response.poses);
-                scene.set('lazy_loaded', false);
-                this.switchScene(scene);
-            });
-          } else {
+      });
+      
+      if (scene.lazy_loaded === true) {
+        api.requestOne('liveScene', { id: scene.id }, null)
+        .then( (response) => {
+            if (response.error) {
+                return;
+            }
+            scene.set('poses', response.poses);
+            scene.set('lazy_loaded', false);
             this.switchScene(scene);
-          }
-        },
-        
-        changeChannel: function(channel) {
-          let api = this.gameApi;
-          
-          if (channel.lazy_loaded === true) {
-            api.requestOne('loadChatMessages', { key: channel.key, is_page: channel.is_page }, null)
-            .then( (response) => {
-                if (response.error) {
-                    return;
-                }
-                set(channel, 'messages', response.messages);
-                set(channel, 'lazy_loaded', false);
-                this.changeChannel(channel);
-            });
-          } else {
+        });
+      } else {
+        this.switchScene(scene);
+      }
+    },
+    
+    @action
+    changeChannel: function(channel) {
+      let api = this.gameApi;
+      
+      if (channel.lazy_loaded === true) {
+        api.requestOne('loadChatMessages', { key: channel.key, is_page: channel.is_page }, null)
+        .then( (response) => {
+            if (response.error) {
+                return;
+            }
+            set(channel, 'messages', response.messages);
+            set(channel, 'lazy_loaded', false);
             this.changeChannel(channel);
-          }
-          
-        },
-        
-        conversationListChanged(newList) {
-            this.set('newConversationList', newList);
-        },
-        
-        startConversation: function() {
-          let api = this.gameApi;
-          let message = this.newPage;
-          let names = (this.newConversationList || []).map(p => p.name);
-          
-          if (names.length === 0) {
-            this.flashMessages.danger("You haven't entered any recipients.");
-            return;
-          }
-          if (!message || message.length === 0) {
-            this.flashMessages.danger("You haven't entered anything.");
-            return;
-          }
-          if (!this.poseChar) {
-            this.flashMessages.danger("You hven't selected a charcter.");
-          }
-          
-          this.set(`newPage`, '');
-          this.set('selectedChannel', null);
-          this.set('showNewConversation', false);
-          this.set('newConversationList', []);
+        });
+      } else {
+        this.changeChannel(channel);
+      }
+      
+    },
+    
+    @action
+    conversationListChanged(newList) {
+        this.set('newConversationList', newList);
+    },
+    
+    @action
+    startConversation: function() {
+      let api = this.gameApi;
+      let message = this.newPage;
+      let names = (this.newConversationList || []).map(p => p.name);
+      
+      if (names.length === 0) {
+        this.flashMessages.danger("You haven't entered any recipients.");
+        return;
+      }
+      if (!message || message.length === 0) {
+        this.flashMessages.danger("You haven't entered anything.");
+        return;
+      }
+      if (!this.poseChar) {
+        this.flashMessages.danger("You hven't selected a charcter.");
+      }
+      
+      this.set(`newPage`, '');
+      this.set('selectedChannel', null);
+      this.set('showNewConversation', false);
+      this.set('newConversationList', []);
 
-          api.requestOne('sendPage', { names: names, message: message, sender: this.poseChar.name }, null)
-          .then( (response) => {
-              if (response.error) {
-                  return;
-              }
-              let channel = this.getChannel(response.thread.key);
-              if (!channel) {
-                channel = response.thread;
-                this.get('model.chat.channels').pushObject(channel);  
-              } 
-              this.changeChannel(channel);
-          });
-        },
-
-        pauseScroll() {
-          this.set('scrollPaused', true);
-        },
-        
-        unpauseScroll() {
-          this.set('scrollPaused', false);
-          this.scrollWindow();
-        },
-        
-        poseCharChanged(char) {
-          this.set('poseChar', char);
-        }
+      api.requestOne('sendPage', { names: names, message: message, sender: this.poseChar.name }, null)
+      .then( (response) => {
+          if (response.error) {
+              return;
+          }
+          let channel = this.getChannel(response.thread.key);
+          if (!channel) {
+            channel = response.thread;
+            this.get('model.chat.channels').pushObject(channel);  
+          } 
+          this.changeChannel(channel);
+      });
     },
 
-  @action
-  setShowNewConversation(value) {
-    this.set('showNewConversation', value);
-  },
-  
-  @action
-  setShowAllPms(value) {
-    this.set('showAllPms', value);
-  },
-  
-  @action
-  setShowAddChannel(value) {
-    this.set('showAddChannel', value);
-  },
-  
-  @action
-  setShowAllChannels(value) {
-    this.set('showAllChannels', value);
-  },
+    @action
+    pauseScroll() {
+      this.set('scrollPaused', true);
+    },
+    
+    @action
+    unpauseScroll() {
+      this.set('scrollPaused', false);
+      this.scrollWindow();
+    },
+    
+    @action
+    poseCharChanged(char) {
+      this.set('poseChar', char);
+    },
+
+    @action
+    setShowNewConversation(value) {
+      this.set('showNewConversation', value);
+    },
+    
+    @action
+    setShowAllPms(value) {
+      this.set('showAllPms', value);
+    },
+    
+    @action
+    setShowAddChannel(value) {
+      this.set('showAddChannel', value);
+    },
+    
+    @action
+    setShowAllChannels(value) {
+      this.set('showAllChannels', value);
+    },
 });

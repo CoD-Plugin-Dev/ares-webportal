@@ -85,49 +85,54 @@ export default Component.extend({
   },
 
   validateChar() {},
-  actions: {
-    setExploitEmbed(index, embed) {
-      this.set(`temp_sheet.embeds_and_exploits.${index}.spec`, embed);
-      this.set(
-        'cg_sheet.exploits',
-        this.temp_sheet.embeds_and_exploits.filter(
-          (e) => e.group === 'Exploit',
-        ),
-      );
-      this.set(
-        'cg_sheet.embeds',
-        this.temp_sheet.embeds_and_exploits.filter((e) => e.group === 'Embed'),
-      );
-    },
-    setEmbedAndExploit(index, embeds_and_exploits) {
-      const selected = this.get('embedsAndExploits').find(
-        (a) => a.name === embeds_and_exploits,
-      );
-      this.set(`embeds_and_exploits.${index}.selected`, selected);
-      this.set(`temp_sheet.embeds_and_exploits.${index}`, selected);
-      this.set(
-        'selectedEmbeds',
-        this.temp_sheet.embeds_and_exploits
-          .filter((a) => a.group === 'Embed')
-          .map((a) => a.name),
-      );
-      this.set(
-        'cg_sheet.exploits',
-        this.temp_sheet.embeds_and_exploits.filter(
-          (e) => e.group === 'Exploit',
-        ),
-      );
-      this.set(
-        'cg_sheet.embeds',
-        this.temp_sheet.embeds_and_exploits.filter((e) => e.group === 'Embed'),
-      );
-    },
-    setFormAbility(index, form_ability) {
-      const selected = this.cg_lists.form_abilities.find(
-        (a) => a.name === form_ability,
-      );
-      this.set(`form_abilities.${index}.selected`, selected);
-      this.set(`cg_sheet.form_abilities.${index}`, selected);
-    },
+
+  @action
+  setExploitEmbed(index, embed) {
+    this.set(`temp_sheet.embeds_and_exploits.${index}.spec`, embed);
+    this.set(
+      'cg_sheet.exploits',
+      this.temp_sheet.embeds_and_exploits.filter(
+        (e) => e.group === 'Exploit',
+      ),
+    );
+    this.set(
+      'cg_sheet.embeds',
+      this.temp_sheet.embeds_and_exploits.filter((e) => e.group === 'Embed'),
+    );
   },
+
+  @action
+  setEmbedAndExploit(index, embeds_and_exploits) {
+    const selected = this.get('embedsAndExploits').find(
+      (a) => a.name === embeds_and_exploits,
+    );
+    this.set(`embeds_and_exploits.${index}.selected`, selected);
+    this.set(`temp_sheet.embeds_and_exploits.${index}`, selected);
+    this.set(
+      'selectedEmbeds',
+      this.temp_sheet.embeds_and_exploits
+        .filter((a) => a.group === 'Embed')
+        .map((a) => a.name),
+    );
+    this.set(
+      'cg_sheet.exploits',
+      this.temp_sheet.embeds_and_exploits.filter(
+        (e) => e.group === 'Exploit',
+      ),
+    );
+    this.set(
+      'cg_sheet.embeds',
+      this.temp_sheet.embeds_and_exploits.filter((e) => e.group === 'Embed'),
+    );
+  },
+
+  @action
+  setFormAbility(index, form_ability) {
+    const selected = this.cg_lists.form_abilities.find(
+      (a) => a.name === form_ability,
+    );
+    this.set(`form_abilities.${index}.selected`, selected);
+    this.set(`cg_sheet.form_abilities.${index}`, selected);
+  },
+
 });

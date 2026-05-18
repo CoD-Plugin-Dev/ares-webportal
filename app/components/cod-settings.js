@@ -46,45 +46,54 @@ export default Component.extend({
     Box.initialize();
     this.set('Box', Box);
   },
-  actions: {
-    updateSettings() {
-      this.gameApi
-        .requestOne('codUpdateSettings', { dice: this.diceFormData })
-        .then((res) => {
-          if (res.error) {
-            return alertify.error(res.error);
-          }
-          this.set('diceFormData', { ...res.dice });
-          alertify.success('Updated');
-        });
-    },
-    testRoll() {
-      this.Box.updateConfig({
-        theme_customColorset: {
-          background: this.displaySettings?.background,
-          foreground: this.displaySettings?.foreground,
-          texture: this.displaySettings?.theme_texture,
-          material: this.displaySettings?.theme_material,
-        },
-      })
-        .then(async () => {
-          if (this.displaySettings?.sounds) {
-            this.Box.sounds = true;
-            await this.Box.loadSounds();
-          } else {
-            this.Box.sounds = false;
-          }
-        })
-        .then(() => this.Box.roll(`3d10`));
-    },
-    selectMaterial(m) {
-      this.set('diceFormData.theme_material', m);
-    },
-    selectTexture(t) {
-      this.set('diceFormData.theme_texture', t);
-    },
-    changeDiceSetting(field, event) {
-      this.set(`diceFormData.${field}`, event.srcElement.value);
-    },
+
+  @action
+  updateSettings() {
+    this.gameApi
+      .requestOne('codUpdateSettings', { dice: this.diceFormData })
+      .then((res) => {
+        if (res.error) {
+          return alertify.error(res.error);
+        }
+        this.set('diceFormData', { ...res.dice });
+        alertify.success('Updated');
+      });
   },
+
+  @action
+  testRoll() {
+    this.Box.updateConfig({
+      theme_customColorset: {
+        background: this.displaySettings?.background,
+        foreground: this.displaySettings?.foreground,
+        texture: this.displaySettings?.theme_texture,
+        material: this.displaySettings?.theme_material,
+      },
+    })
+      .then(async () => {
+        if (this.displaySettings?.sounds) {
+          this.Box.sounds = true;
+          await this.Box.loadSounds();
+        } else {
+          this.Box.sounds = false;
+        }
+      })
+      .then(() => this.Box.roll(`3d10`));
+  },
+
+  @action
+  selectMaterial(m) {
+    this.set('diceFormData.theme_material', m);
+  },
+
+  @action
+  selectTexture(t) {
+    this.set('diceFormData.theme_texture', t);
+  },
+
+  @action
+  changeDiceSetting(field, event) {
+    this.set(`diceFormData.${field}`, event.srcElement.value);
+  },
+
 });

@@ -34,30 +34,33 @@ export default Component.extend({
   canSelect: computed('selectableChars', function () {
     return this.selectableChars?.length > 1;
   }),
-  actions: {
-    selectChar(name) {
-      this.set('selectedChar', this.getSelectedChar(name));
-    },
-    awardBeats() {
-      this.set('selectAwardBeats', false);
-      this.gameApi
-        .requestOne(
-          'awardBeats',
-          {
-            id: this.job.id,
-            char: this.selectedChar?.name,
-            beats: this.beats,
-            message: this.message,
-          },
-          null,
-        )
-        .then((res) => {
-          if (res.c_error) {
-            alertify.error(res.c_error);
-            return;
-          }
-          this.clearForm();
-        });
-    },
+
+  @action
+  selectChar(name) {
+    this.set('selectedChar', this.getSelectedChar(name));
   },
+  
+  @action
+  awardBeats() {
+    this.set('selectAwardBeats', false);
+    this.gameApi
+      .requestOne(
+        'awardBeats',
+        {
+          id: this.job.id,
+          char: this.selectedChar?.name,
+          beats: this.beats,
+          message: this.message,
+        },
+        null,
+      )
+      .then((res) => {
+        if (res.c_error) {
+          alertify.error(res.c_error);
+          return;
+        }
+        this.clearForm();
+      });
+  },
+
 });

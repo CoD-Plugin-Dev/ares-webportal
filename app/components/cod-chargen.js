@@ -82,29 +82,41 @@ export default Component.extend({
 
   validateChar: function () {},
 
-  actions: {
-    updateCgSheet() {
-      this.onUpdate();
-    },
-    setupTemplate() {
-      this.setupTemplate();
-    },
-    updateField(field, index, value) {
-      this.set(`template_info.fields.${index}.selected`, value);
-      value.field = field;
-      this.set(`cg_sheet.fields.${index}`, value);
-    },
-    selectTemplate(template) {
-      this.set('selectedTemplate', template);
-    },
-    setConcept(event) {
-      this.set('cg_sheet.concept', event.srcElement.value);
-    },
-    addAnchor(index, event) {
-      this.set(`cg_sheet.anchors.${index}`, event.srcElement.value);
-    },
-    setClassification(classification, type) {
-      this.set(`cg_sheet.classifications.${classification}`, type);
-    },
+  @action
+  updateCgSheet() {
+    this.onUpdate();
   },
+
+  @action
+  setupTemplate() {
+    this.setupTemplate();
+  },
+
+  @action
+  updateField(field, index, value) {
+    this.set(`template_info.fields.${index}.selected`, value);
+    value.field = field;
+    this.set(`cg_sheet.fields.${index}`, value);
+  },
+
+  @action
+  selectTemplate(template) {
+    this.set('selectedTemplate', template);
+  },
+
+  @action
+  setConcept(event) {
+    this.set('cg_sheet.concept', event.srcElement.value);
+  },
+
+  @action
+  addAnchor(index, event) {
+    this.set(`cg_sheet.anchors.${index}`, event.srcElement.value);
+  },
+
+  @action
+  setClassification(classification, type) {
+    this.set(`cg_sheet.classifications.${classification}`, type);
+  },
+
 });

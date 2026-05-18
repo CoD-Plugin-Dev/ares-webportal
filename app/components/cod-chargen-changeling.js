@@ -43,11 +43,12 @@ export default Component.extend({
   },
 
   validateChar() {},
-  actions: {
-    setContract(index, contract) {
-      const selected = this.cg_lists.contracts.find((a) => a.name === contract);
-      this.set(`contracts.${index}.selected`, selected);
-      this.set(`cg_sheet.contracts.${index}`, selected);
-    },
+
+  @action
+  setContract(index, contract) {
+    const selected = this.cg_lists.contracts.find((a) => a.name === contract);
+    this.set(`contracts.${index}.selected`, selected);
+    this.set(`cg_sheet.contracts.${index}`, selected);
   },
+
 });

@@ -53,11 +53,6 @@ export default Component.extend({
     return this.combat?.combatants.find((c) => c.name === name);
   },
 
-  @action
-    setSelectAddRoll(value) {
-      this.set('selectAddRoll', value);
-    },
-
   init() {
     this._super(...arguments);
     const template = this.data.char?.template;
@@ -128,61 +123,72 @@ export default Component.extend({
     this.Box?.clearDice();
   },
 
-  actions: {
-    selectChar(name) {
-      this.set('selectedChar', this.getSelectedChar(name));
-      this.set('rollChar', name);
-    },
-    selectTarget(name) {
-      this.set('selectedTarget', this.getSelectedChar(name));
-      this.set('opposedRollChar', name);
-    },
-    setOpposed(state) {
-      switch (state) {
-        case 'vs':
-          this.set('vs', true);
-          this.set('at', false);
-          break;
-        case '@':
-          this.set('at', true);
-          this.set('vs', false);
-          break;
-        default:
-          this.clearForm();
-      }
-    },
-    addRoll() {
-      this.set('selectAddRoll', false);
-      this.gameApi
-        .requestOne(
-          this.actionType === 'job' ? 'addJobRoll' : 'addSceneRoll',
-          {
-            id: this.get(this.actionType === 'job' ? 'job.id' : 'scene.id'),
-            char: this.rollChar,
-            char_roll_str: this.rollString,
-            target: this.opposedRollChar,
-            target_roll_str: this.opposedRollString,
-            opposed: this.vs,
-            modified: this.at,
-            wp: this.wp,
-            rote: this.rote,
-            again: this.strict
-              ? 'strict'
-              : this.nineAgain
-              ? 9
-              : this.eightAgain
-              ? 8
-              : 10,
-          },
-          null,
-        )
-        .then((res) => {
-          if (res.c_error) {
-            alertify.error(res.c_error);
-            return;
-          }
-          this.clearForm();
-        });
-    },
+  @action
+  selectChar(name) {
+    this.set('selectedChar', this.getSelectedChar(name));
+    this.set('rollChar', name);
   },
+
+  @action
+  selectTarget(name) {
+    this.set('selectedTarget', this.getSelectedChar(name));
+    this.set('opposedRollChar', name);
+  },
+
+  @action
+  setOpposed(state) {
+    switch (state) {
+      case 'vs':
+        this.set('vs', true);
+        this.set('at', false);
+        break;
+      case '@':
+        this.set('at', true);
+        this.set('vs', false);
+        break;
+      default:
+        this.clearForm();
+    }
+  },
+
+  @action
+  addRoll() {
+    this.set('selectAddRoll', false);
+    this.gameApi
+      .requestOne(
+        this.actionType === 'job' ? 'addJobRoll' : 'addSceneRoll',
+        {
+          id: this.get(this.actionType === 'job' ? 'job.id' : 'scene.id'),
+          char: this.rollChar,
+          char_roll_str: this.rollString,
+          target: this.opposedRollChar,
+          target_roll_str: this.opposedRollString,
+          opposed: this.vs,
+          modified: this.at,
+          wp: this.wp,
+          rote: this.rote,
+          again: this.strict
+            ? 'strict'
+            : this.nineAgain
+            ? 9
+            : this.eightAgain
+            ? 8
+            : 10,
+        },
+        null,
+      )
+      .then((res) => {
+        if (res.c_error) {
+          alertify.error(res.c_error);
+          return;
+        }
+        this.clearForm();
+      });
+  },
+
+  @action
+  setSelectAddRoll(value) {
+    this.set('selectAddRoll', value);
+  },
+
 });

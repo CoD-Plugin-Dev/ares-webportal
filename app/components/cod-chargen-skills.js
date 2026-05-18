@@ -70,15 +70,19 @@ export default Component.extend({
     );
   },
 
-  actions: {
-    skillChanged() {},
-    specSkillChanged(index, skill) {
-      this.set(`cg_sheet.specialties.${index}.skill`, skill.skill);
-      this.set(`specialties.${index}.examples`, `Examples: ${skill.specs}`);
-    },
-    addSpecialty(index, event) {
-      const spec = this.get('cg_sheet.specialties').objectAt(index);
-      spec.specialty = event.srcElement.value;
-    },
+  @action
+  skillChanged() {},
+
+  @action
+  specSkillChanged(index, skill) {
+    this.set(`cg_sheet.specialties.${index}.skill`, skill.skill);
+    this.set(`specialties.${index}.examples`, `Examples: ${skill.specs}`);
   },
+
+  @action
+  addSpecialty(index, event) {
+    const spec = this.get('cg_sheet.specialties').objectAt(index);
+    spec.specialty = event.srcElement.value;
+  },
+
 });
