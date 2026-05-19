@@ -52,8 +52,7 @@
         @selected={{get this.cg_sheet.specialties index}} @onChange={{this.specSkillChanged index}} as |s|>
         {{s.skill}}
       </PowerSelect>
-      <input type="text" class="w-100 mt-2" placeholder="Specialty" value={{(get (get this.cg_sheet.specialties
-        index) 'specialty' )}} oninput={{this.addSpecialty index}} />
+      <input type="text" class="w-100 mt-2" placeholder="Specialty" value={{(get (get this.cg_sheet.specialties index) 'specialty' )}} {{on "input" this.addSpecialty index}} />
       <br>
       <div class="cg-tip pw-2">{{spec.examples}}</div>
     </div>

@@ -81,7 +81,7 @@
         <button type="button" {{this.rollInit}} class="btn btn-secondary btn-sm">
           {{#if this.hasRolledInit}}Modify Init{{else}}Roll Init{{/if}}
         </button>
-        <input type="text" class="init-mod" value={{this.initModifier}} oninput={{this.updateInitModifier}} />
+        <input type="text" class="init-mod" value={{this.initModifier}} {{on "input" this.updateInitModifier}} />
         <button type="button" class="btn btn-secondary btn-sm" {{this.leaveCombat}}>
           Leave
         </button>

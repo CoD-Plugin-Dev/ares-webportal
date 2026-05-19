@@ -40,16 +40,16 @@
   <div role="tabpanel" class="tab-pane" id="basics">
     <div class="p-2">
       <div style="font-size:larger">Concept</div>
-      <input type="text" size="25" value={{this.cg_sheet.concept}} oninput={{this.setConcept}} />
+      <input type="text" size="25" value={{this.cg_sheet.concept}} {{on "input" this.setConcept}} />
     </div>
     <div class="p-2">
       <div style="font-size:larger">Anchors</div>
       <input type="text" size="25" value={{(get this.cg_sheet.anchors 0)}}
-        placeholder={{this.template_info.anchors.0.name}} oninput={{this.addAnchor 0}} />
+        placeholder={{this.template_info.anchors.0.name}} {{on "input" this.addAnchor 0}} />
       <div class="cg-tip">Suggested: {{this.template_info.anchors.0.suggested}}</div>
       <br>
       <input type="text" size="25" value={{(get this.cg_sheet.anchors 1)}}
-        placeholder={{this.template_info.anchors.1.name}} oninput={{this.addAnchor 1}} />
+        placeholder={{this.template_info.anchors.1.name}} {{on "input" this.addAnchor 1}} />
       <div class="cg-tip">Suggested: {{this.template_info.anchors.1.suggested}}</div>
     </div>
   </div>
