@@ -2,17 +2,15 @@ import Component from '@ember/component';
 
 export default Component.extend({
   tagName: '',
-  
-  didInsertElement: function() {
+
+  didInsertElement() {
     this._super(...arguments);
-    let self = this;
-    this.set('updateCallback', function() { return self.onUpdate(); } );
+    this.set('updateCallback', () => this.onUpdate());
   },
-  
-  onUpdate: function() {
-    // Return a hash containing your data.  Character data will be in 'char'.  For example:
-    // 
-    // return { goals: this.get('char.custom.goals') };
-    return {};
-  }
+
+  onUpdate() {
+    return {
+      cg_sheet: this.get('char.custom.cg_sheet'),
+    };
+  },
 });
