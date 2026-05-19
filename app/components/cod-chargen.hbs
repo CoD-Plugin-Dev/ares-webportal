@@ -19,11 +19,8 @@
   {{/if}}
 </ul>
 
-{{#if this.override_cod_sheet}}
-<div class="tab-content override-cod-sheet">
-{{else}}
-<div class="tab-content cod-sheet">
-{{/if}}
+
+<div class="tab-content {{if this.override_cod_sheet 'override-'}}cod-sheet">
   <div role="tabpanel" class="tab-pane active" id="setup">
     <p class="cg-tip" style="font-weight:bold">
       <AnsiFormat @text="To start your character, select a template from the dropdown
@@ -98,8 +95,12 @@
       <div class="cg-tip">
         <AnsiFormat @text={{(nl2br s.desc)}} />
       </div>
-      <PowerSelect @options={{s.values}} @searchEnabled={{true}} @searchField="name" @selected={{(get
-        this.cg_sheet.fields index)}} @onChange={{this.updateField s.name index}} as |field|>
+      <PowerSelect 
+        @options={{s.values}} 
+        @searchEnabled={{true}} 
+        @searchField="name" 
+        @selected={{(get this.cg_sheet.fields index)}} 
+        @onChange={{this.updateField s.name index}} as |field|>
         {{field.name}}
       </PowerSelect>
     </div>
