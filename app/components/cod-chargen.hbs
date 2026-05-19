@@ -58,7 +58,7 @@
     <div class="p-2">
       <div style="font-size:larger">{{this.template_info.classifications.primary}}</div>
       <PowerSelect @options={{this.primaryClassList}} @searchEnabled={{true}}
-        @selected={{this.cg_sheet.classifications.primary}} @onChange={{this.setClassification 'primary' }} as
+        @selected={{this.cg_sheet.classifications.primary}} @onChange={{fn this.setClassification 'primary'}} as
         |primary|>
         {{primary}}
       </PowerSelect>
@@ -67,7 +67,7 @@
     <div class="p-2">
       <div style="font-size:larger">{{this.template_info.classifications.secondary}}</div>
       <PowerSelect @options={{this.secondaryClassList}} @searchEnabled={{true}}
-        @selected={{this.cg_sheet.classifications.secondary}} @onChange={{this.setClassification 'secondary' }} as
+        @selected={{this.cg_sheet.classifications.secondary}} @onChange={{fn this.setClassification 'secondary'}} as
         |secondary|>
         {{secondary}}
       </PowerSelect>
@@ -77,7 +77,7 @@
     <div class="p-2">
       <div style="font-size:larger">{{this.template_info.classifications.tertiary}}</div>
       <PowerSelect @options={{this.tertiaryClassList}} @searchEnabled={{true}}
-        @selected={{this.cg_sheet.classifications.tertiary}} @onChange={{this.setClassification 'tertiary' }} as
+        @selected={{this.cg_sheet.classifications.tertiary}} @onChange={{fn this.setClassification 'tertiary'}} as
         |tertiary|>
         {{tertiary}}
       </PowerSelect>
@@ -101,7 +101,7 @@
         @searchEnabled={{true}} 
         @searchField="name" 
         @selected={{(get this.cg_sheet.fields index)}} 
-        @onChange={{this.updateField s.name index}} as |field|>
+        @onChange={{fn this.updateField s.name index}} as |field|>
         {{field.name}}
       </PowerSelect>
     </div>
