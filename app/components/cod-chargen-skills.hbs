@@ -49,7 +49,7 @@
     {{#each this.specialties as |spec index|}}
     <div class="col">
       <PowerSelect @options={{spec.options}} @searchEnabled={{true}} @searchField="skill" placeholder="Select a Skill"
-        @selected={{get this.cg_sheet.specialties index}} @onChange={{this.specSkillChanged index}} as |s|>
+        @selected={{get this.cg_sheet.specialties index}} @onChange={{fn this.specSkillChanged index}} as |s|>
         {{s.skill}}
       </PowerSelect>
       <input type="text" class="w-100 mt-2" placeholder="Specialty" value={{(get (get this.cg_sheet.specialties index) 'specialty' )}} {{on "input" this.addSpecialty index}} />

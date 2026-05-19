@@ -38,7 +38,7 @@
     {{#each this.resistance as |a|}}
     <div class="col">
       <CodFillbox @rating={{a.rating}} @ratingName={{a.name}} @minRating={{this.cg_info.min_attr}}
-        @maxRating={{this.cg_info.max_attr}} @updated={{this.attrChanged this.rating a.name }}>
+        @maxRating={{this.cg_info.max_attr}} @updated={{fn this.attrChanged this.rating a.name}}>
         <em>{{a.name}}</em>
       </CodFillbox>
     </div>
