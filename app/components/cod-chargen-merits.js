@@ -51,7 +51,7 @@ export default Component.extend({
   validateChar() {},
 
   @action
-  addMerit() {
+  addMeritAction() {
     this.addMerit();
   },
 
