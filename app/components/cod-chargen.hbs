@@ -19,8 +19,11 @@
   {{/if}}
 </ul>
 
-
-<div class="tab-content {{if this.override_cod_sheet 'override-'}}cod-sheet">
+{{#if this.override_cod_sheet}}
+<div class="tab-content override-cod-sheet">
+{{else}}
+<div class="tab-content cod-sheet">
+{{/if}}
   <div role="tabpanel" class="tab-pane active" id="setup">
     <p class="cg-tip" style="font-weight:bold">
       <AnsiFormat @text="To start your character, select a template from the dropdown
