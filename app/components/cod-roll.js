@@ -2,6 +2,7 @@ import { computed } from '@ember/object';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import DiceBox from './dice-box-three';
+import { action } from '@ember/object';
 
 export default Component.extend({
   gameApi: service(),

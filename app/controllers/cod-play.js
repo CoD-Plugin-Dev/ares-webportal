@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import { localTime } from 'ares-webportal/helpers/local-time';
 import AuthenticatedController from 'ares-webportal/mixins/authenticated-controller';
 import SceneUpdate from 'ares-webportal/mixins/scene-update';
+import { action } from '@ember/object';
 
 export default Controller.extend(AuthenticatedController, SceneUpdate, {
     gameApi: service(),

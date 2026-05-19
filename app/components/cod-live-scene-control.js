@@ -3,6 +3,7 @@ import { set, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { observer } from '@ember/object';
 import AuthenticatedController from 'ares-webportal/mixins/authenticated-controller';
+import { action } from '@ember/object';
 
 export default Component.extend(AuthenticatedController, {
     rollString: null,

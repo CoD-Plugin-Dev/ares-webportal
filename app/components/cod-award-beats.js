@@ -1,6 +1,7 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
 export default Component.extend({
   gameApi: service(),
@@ -39,7 +40,7 @@ export default Component.extend({
   selectChar(name) {
     this.set('selectedChar', this.getSelectedChar(name));
   },
-  
+
   @action
   awardBeats() {
     this.set('selectAwardBeats', false);

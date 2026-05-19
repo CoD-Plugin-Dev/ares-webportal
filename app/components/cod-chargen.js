@@ -2,6 +2,7 @@ import EmberObject, { computed } from '@ember/object';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
 export const prettyPrintPrereqs = (str = '') => {
   return str

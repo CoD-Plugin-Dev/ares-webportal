@@ -1,5 +1,6 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 
 export default Component.extend({
   showDecrement: computed('cursor', function () {

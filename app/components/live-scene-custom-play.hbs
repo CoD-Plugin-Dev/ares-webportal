@@ -8,9 +8,9 @@
 {{/unless}}
 
 {{#unless this.hasCombat}}
-<li><a href="#" {{action 'combatStart' }} class="dropdown-item">Start Conflict</a></li>
+<li><a href="#" {{on 'click' (fn this.combatStart)}} class="dropdown-item">Start Conflict</a></li>
 {{else}}
-<li><a href="#" {{action 'combatEnd' }} class="dropdown-item">End Conflict</a></li>
+<li><a href="#" {{on 'click' (fn this.combatEnd)}} class="dropdown-item">End Conflict</a></li>
 {{/unless}}
 
 {{#unless this.isSceneFocus}}

@@ -1,5 +1,6 @@
 import { computed } from '@ember/object';
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 
 export default Controller.extend({
   filter: null,
