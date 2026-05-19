@@ -19,7 +19,7 @@
   {{/if}}
 </ul>
 
-{{!-- 
+
 <div class="tab-content {{if this.override_cod_sheet 'override-'}}cod-sheet">
   <div role="tabpanel" class="tab-pane active" id="setup">
     <p class="cg-tip" style="font-weight:bold">
@@ -115,9 +115,9 @@
     <CodChargenMerits @cg_sheet={{this.cg_sheet}} @cg_info={{this.cg_info}} @cg_lists={{this.cg_lists}} />
   </div>
   <div role="tabpanel" class="tab-pane" id="abilities">
-    {{component this.template_component
+    {{!-- {{component this.template_component
     cg_sheet=this.cg_sheet cg_info=this.cg_info cg_lists=this.cg_lists
-    }}
+    }} --}}
   </div>
 </div>
 
@@ -125,4 +125,4 @@
   .cod-sheet .fs3-abilitybox {
     border-bottom-width: 1px;
   }
-</style> --}}
+</style> 
