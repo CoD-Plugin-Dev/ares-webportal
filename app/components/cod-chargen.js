@@ -89,7 +89,7 @@ export default Component.extend({
   },
 
   @action
-  setupTemplate() {
+  setupTemplateAction() {
     this.setupTemplate();
   },
 
