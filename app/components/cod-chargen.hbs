@@ -21,7 +21,7 @@
 
 
 <div class="tab-content {{if this.override_cod_sheet 'override-'}}cod-sheet">
-{{!--  <div role="tabpanel" class="tab-pane active" id="setup">
+<div role="tabpanel" class="tab-pane active" id="setup">
     <p class="cg-tip" style="font-weight:bold">
       <AnsiFormat @text="To start your character, select a template from the dropdown
           and click the Setup Template button below. When switching templates, make
@@ -33,10 +33,10 @@
       {{template}}
     </PowerSelect>
     <br>
-    <button name="reset" {{this.setupTemplate}} class="btn btn-primary">Setup Template</button>
+    <button name="reset" {{on "click" this.setupTemplate}} class="btn btn-primary">Setup Template</button>
   </div>
 
-{{!--
+
   <div role="tabpanel" class="tab-pane" id="basics">
     <div class="p-2">
       <div style="font-size:larger">Concept</div>
@@ -120,10 +120,10 @@
     <CodChargenMerits @cg_sheet={{this.cg_sheet}} @cg_info={{this.cg_info}} @cg_lists={{this.cg_lists}} />
   </div>
   <div role="tabpanel" class="tab-pane" id="abilities">
-    {{!-- {{component this.template_component
+    {{component this.template_component
     cg_sheet=this.cg_sheet cg_info=this.cg_info cg_lists=this.cg_lists
     }} 
-  </div> --}}
+  </div>
 </div>
 
 <style>
