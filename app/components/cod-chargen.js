@@ -107,12 +107,12 @@ export default Component.extend({
 
   @action
   setConcept(event) {
-    this.set('cg_sheet.concept', event.srcElement.value);
+    this.set('cg_sheet.concept', event.target.value);
   },
 
   @action
   addAnchor(index, event) {
-    this.set(`cg_sheet.anchors.${index}`, event.srcElement.value);
+    this.set(`cg_sheet.anchors.${index}`, event.target.value);
   },
 
   @action

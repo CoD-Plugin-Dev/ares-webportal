@@ -58,7 +58,7 @@ export default Component.extend({
 
   @action
   updateInitModifier(event) {
-    this.set('initModifier', event.srcElement.value);
+    this.set('initModifier', event.target.value);
   },
 
   @action

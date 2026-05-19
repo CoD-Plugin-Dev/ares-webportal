@@ -94,7 +94,7 @@ export default Component.extend({
 
   @action
   changeDiceSetting(field, event) {
-    this.set(`diceFormData.${field}`, event.srcElement.value);
+    this.set(`diceFormData.${field}`, event.target.value);
   },
 
 });

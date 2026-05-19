@@ -83,12 +83,12 @@ export default Component.extend({
 
   @action
   updateNpcData(event) {
-    this.set(`formData.${event.srcElement.name}`, event.srcElement.value);
+    this.set(`formData.${event.target.name}`, event.target.value);
   },
 
   @action
   updateSheetData(field, event) {
-    this.set(`formData.sheet.${field}`, event.srcElement.value);
+    this.set(`formData.sheet.${field}`, event.target.value);
   },
 
   @action

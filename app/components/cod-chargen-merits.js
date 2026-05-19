@@ -86,7 +86,7 @@ export default Component.extend({
 
   @action
   addSpecifics(index, event) {
-    this.set(`cg_sheet.merits.${index}.spec`, event.srcElement.value);
+    this.set(`cg_sheet.merits.${index}.spec`, event.target.value);
   },
 
 });

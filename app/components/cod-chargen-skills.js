@@ -83,7 +83,7 @@ export default Component.extend({
   @action
   addSpecialty(index, event) {
     const spec = this.get('cg_sheet.specialties').objectAt(index);
-    spec.specialty = event.srcElement.value;
+    spec.specialty = event.target.value;
   },
 
 });
