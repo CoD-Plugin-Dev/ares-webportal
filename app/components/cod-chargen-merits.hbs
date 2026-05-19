@@ -3,14 +3,14 @@
 </p>
 
 <div class="container">
-  <button name="addmerit" {{this.addMerit}} class="btn btn-primary text-right">Add Merit</button>
+  <button name="addmerit" {{on "click" this.addMerit}} class="btn btn-primary text-right">Add Merit</button>
 
   <div class="row p-4">
     <br>
     {{#each this.cg_sheet.merits as |m index|}}
     <div class="row">
       <div class="col-1 mt-1">
-        <button name="deletemerit" {{this.deleteMerit index}} class="btn btn-sm btn-outline-danger">x</button>
+        <button name="deletemerit" {{on "click" (fn this.deleteMerit index)}} class="btn btn-sm btn-outline-danger">x</button>
       </div>
       <div class="col-4">
         <div class="w-100">
