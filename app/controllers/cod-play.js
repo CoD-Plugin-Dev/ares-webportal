@@ -201,7 +201,7 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
     }),
     
     anyNewActivity: computed('model.chat.channels.@each.{is_unread,new_messages}', 'model.scenes.@each.is_unread', function() {
-      return this.get('model.chat.channels').any(c => c.is_unread || c.new_messages > 0) || this.get('model.scenes').any(s => s.is_unread );
+      return this.get('model.chat.channels').some(c => c.is_unread || c.new_messages > 0) || this.get('model.scenes').some(s => s.is_unread );
     }),
         
     
