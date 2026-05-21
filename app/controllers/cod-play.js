@@ -28,7 +28,7 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
     newPage: null,
       
     // Both
-    scrollPaused: false
+    scrollPaused: false,
 
     init: function() {
       this._super(...arguments);
