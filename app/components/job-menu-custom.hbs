@@ -1,6 +1,6 @@
-<li><a href="#" {{on 'click' (fn this.selectAddRoll true)}} class="dropdown-item">Roll</a></li>
+<li><a href="#" {{on 'click' (fn this.setSelectAddRoll true)}} class="dropdown-item">Roll</a></li>
 {{#if this.job.custom.is_st}}
-<li><a href="#" {{on 'click' (fn this.selectAwardBeats true)}} class="dropdown-item">Award Beats</a></li>
+<li><a href="#" {{on 'click' (fn this.setSelectAwardBeats true)}} class="dropdown-item">Award Beats</a></li>
 {{/if}}
 
 <CodRoll @data={{this.job.custom}} @actionType="job" @job={{this.job}} @selectAddRoll={{this.selectAddRoll}}
