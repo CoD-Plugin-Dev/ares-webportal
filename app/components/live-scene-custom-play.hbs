@@ -1,9 +1,9 @@
 {{#unless this.completed}}
 
 {{#unless this.hasCombat}}
-<li><a href="#" {{on 'click' (fn this.selectAddRoll true)}} class="dropdown-item">Roll</a></li>
-<li><a href="#" {{on 'click' (fn this.selectAdjustHealth true)}} class="dropdown-item">Adjust Health</a></li>
-<li><a href="#" {{on 'click' (fn this.selectAdjustResource true)}} class="dropdown-item">Adjust Resource</a></li>
+<li><a href="#" {{on 'click' (fn this.setSelectAddRoll true)}} class="dropdown-item">Roll</a></li>
+<li><a href="#" {{on 'click' (fn this.setSelectAdjustHealth true)}} class="dropdown-item">Adjust Health</a></li>
+<li><a href="#" {{on 'click' (fn this.setSelectAdjustResource true)}} class="dropdown-item">Adjust Resource</a></li>
 <hr role="separator" class="dropdown-divider">
 {{/unless}}
 

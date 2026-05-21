@@ -64,4 +64,19 @@ export default Component.extend({
       });
   },
 
+  @action
+  setSelectAddRoll(value) {
+    this.set('selectAddRoll', value);
+  },
+
+  @action
+  setSelectAdjustHealth(value) {
+    this.set('selectAdjustHealth', value);
+  },
+
+  @action
+  setSelectAdjustResource(value) {
+    this.set('selectAdjustResource', value);
+  },
+
 });
