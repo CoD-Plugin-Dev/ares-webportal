@@ -1,8 +1,8 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-//import DiceBox from './dice-box-three';
-import DiceBox from '@3d-dice/dice-box';
+import DiceBox from './dice-box-three';
+//import DiceBox from '@3d-dice/dice-box';
 import { action } from '@ember/object';
 
 export default Component.extend({
