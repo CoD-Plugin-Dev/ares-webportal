@@ -310,7 +310,7 @@
         {{po.name}}
       </td>
       <td>
-        <a href="#" {{this.dropPoseOrder po.name}}>
+        <a href="#" {{on 'click' (fn this.dropPoseOrder po.name)}}>
           <TooltipIcon @position="left" @message="Skip Turn" @icon="fa fa-times-circle" />
         </a>
       </td>
@@ -321,11 +321,11 @@
   <br>
 
   {{#if (eq this.scene.pose_order_type '3-per')}}
-  Switch to regular pose order: <a href="#" {{this.switchPoseOrderType 'normal' }}>
+  Switch to regular pose order: <a href="#" {{on 'click' (fn this.switchPoseOrderType 'normal')}}>
     <TooltipIcon @position="left" @message="Regular Order" @icon="fa fa-user" />
   </a>
   {{else}}
-  Switch to 3-per pose order: <a href="#" {{this.switchPoseOrderType '3-per' }}>
+  Switch to 3-per pose order: <a href="#" {{on 'click' (fn this.switchPoseOrderType '3-per')}}>
     <TooltipIcon @position="left" @message="3-Per Order" @icon="fa fa-users" />
   </a>
   {{/if}}
