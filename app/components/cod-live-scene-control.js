@@ -242,7 +242,7 @@ export default Component.extend(AuthenticatedController, {
               this.set('commandResponse', '');
             }
             
-            this.scrollDown();
+            this.onScrollDown();
         });
     },
       
@@ -311,7 +311,7 @@ export default Component.extend(AuthenticatedController, {
       
     @action
     scrollDown() {
-      this.scrollDown();
+      this.onScrollDown();
     },
       
     @action
@@ -416,7 +416,7 @@ export default Component.extend(AuthenticatedController, {
     setConfirmReportScene(value) {
       this.set('confirmReportScene', value);
     },
-    
+
     @action
     setSelectLocation(value) {
       this.set('selectLocation', value);
