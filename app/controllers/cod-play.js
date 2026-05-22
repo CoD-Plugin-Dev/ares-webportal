@@ -239,7 +239,7 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
       }); 
     },
     
-    changeChannel: function(channel) {
+    updateChannel: function(channel) {
       this.set('selectedChannel', channel);
       this.set('currentScene', null);
       set(channel, 'new_messages', null);
@@ -252,7 +252,7 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
       setTimeout(() => self.scrollWindow(), 150, self);
     },
     
-    switchScene: function(scene) {
+    updateScene: function(scene) {
       scene.set('is_unread', false);
       this.set('currentScene', scene);
       this.set('selectedChannel', null);
@@ -276,7 +276,7 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
             let channel = this.getChannel(data.key);
             this.get('model.chat.channels').removeObject(channel);
             this.get('model.chat.channels').pushObject(data);
-            this.changeChannel(data);
+            this.updateChannel(data);
         });
     },
   
@@ -317,10 +317,10 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
             }
             scene.set('poses', response.poses);
             scene.set('lazy_loaded', false);
-            this.switchScene(scene);
+            this.updateScene(scene);
         });
       } else {
-        this.switchScene(scene);
+        this.updateScene(scene);
       }
     },
     
@@ -336,10 +336,10 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
             }
             set(channel, 'messages', response.messages);
             set(channel, 'lazy_loaded', false);
-            this.changeChannel(channel);
+            this.updateChannel(channel);
         });
       } else {
-        this.changeChannel(channel);
+        this.updateChannel(channel);
       }
       
     },
@@ -382,7 +382,7 @@ export default Controller.extend(AuthenticatedController, SceneUpdate, {
             channel = response.thread;
             this.get('model.chat.channels').pushObject(channel);  
           } 
-          this.changeChannel(channel);
+          this.updateChannel(channel);
       });
     },
 
