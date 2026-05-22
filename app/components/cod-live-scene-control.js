@@ -401,4 +401,24 @@ export default Component.extend(AuthenticatedController, {
     setCharacterCard(value) {
       this.set('characterCard', value);
     },
+
+    @action
+    setConfirmDeleteScene(value) {
+      this.set('confirmDeleteScene', value);
+    },
+    
+    @action
+    setConfirmDeleteScenePose(value) {
+      this.set('confirmDeleteScenePose', value);
+    },
+    
+    @action
+    setConfirmReportScene(value) {
+      this.set('confirmReportScene', value);
+    },
+    
+    @action
+    setSelectLocation(value) {
+      this.set('selectLocation', value);
+    },
 });
