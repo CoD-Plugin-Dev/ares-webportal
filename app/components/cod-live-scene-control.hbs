@@ -169,6 +169,7 @@
       {{/if}}
     </div>
 
+    
     {{#if (not this.scene.reload_required)}}
     <div class="col col-sm-6 col-xs-12 scene-controls-left">
 
@@ -260,8 +261,7 @@
 </BsModalSimple>
 
 <BsModalSimple @title="Confirm Report" @closeTitle="Cancel" @submitTitle="Confirm" @size={{null}} @fade={{true}}
-  @open={{this.confirmReportScene}} @onSubmit={{this.reportScene}} @onHide={{(fn this.setConfirmReportScene
-  false)}}>
+  @open={{this.confirmReportScene}} @onSubmit={{this.reportScene}} @onHide={{(fn this.setConfirmReportScene false)}}>
   <p>You can bring this cene to the game admin's attention - along with an automatic, verified log of the scene
     (including OOC chat). </p>
 
@@ -272,8 +272,7 @@
 </BsModalSimple>
 
 <BsModalSimple @title="Confirm Delete" @closeTitle="Cancel" @submitTitle="Confirm" @size={{null}} @fade={{true}}
-  @open={{this.confirmDeleteScene}} @onSubmit={{this.deleteScene}} @onHide={{(fn this.setConfirmDeleteScene
-  false)}}>
+  @open={{this.confirmDeleteScene}} @onSubmit={{this.deleteScene}} @onHide={{(fn this.setConfirmDeleteScene false)}}>
   You're about to mark this scene for deletion. If there are poses, other participants will have a chance to download,
   share, or restart the scene before it is permanently deleted. Are you sure?
 </BsModalSimple>
