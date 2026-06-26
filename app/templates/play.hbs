@@ -92,7 +92,7 @@
            {{/if}}
          {{/if}}
        {{/each}}
-      <PlayCustom @custom_play={{this.model.app.game.custom_play}}/> 
+      <PlayCustomSidebar @scene={{this.currentScene}} @channel={{this.selectedChannel}} @model={{this.model}} />
      </div>
                          
    </div>
