@@ -21,7 +21,7 @@ export default Service.extend(AresConfig, {
       
     socketUrl() {
       let protocol = this.httpsEnabled ? 'wss' : 'ws';
-      return `${protocol}://${this.mushHost}:${this.websocketPort}/websocket`;
+      return `${protocol}://${this.mushHost}/websocket`;
     },
     
     checkSession(charId) {
